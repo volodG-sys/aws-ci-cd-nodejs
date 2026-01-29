@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker build -t my-nodejs-app .
+      - docker tag my-nodejs-app:latest 442955307136.dkr.ecr.us-east-1.amazonaws.com/my-nodejs-app:latest
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - docker push 442955307136.dkr.ecr.us-east-1.amazonaws.com/my-nodejs-app:latest
