@@ -3,22 +3,23 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 24 # Використовуємо Node.js 24, як у твоєму CodeBuild середовищі
+      nodejs: 24
     commands:
       - echo Installing dependencies...
       - npm install
+
   pre_build:
     commands:
-      - echo Pre-build step: preparing...
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 442955307136.dkr.ecr.us-east-1.amazonaws.com
+
   build:
     commands:
       - echo Build started on `date`
-      - npm run build # або інша команда для збірки твого Node.js додатку
+      - docker build -t my-nodejs-app .
+      - docker tag my-nodejs-app:latest 442955307136.dkr.ecr.us-east-1.amazonaws.com/my-nodejs-app:latest
+
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo You can add tests or other steps here
-
-artifacts:
-  files:
-    - '**/*' # все, що треба зберегти як артефакти збірки
+      - docker push 442955307136.dkr.ecr.us-east-1.amazonaws.com/my-nodejs-app:latest
