@@ -1,14 +1,13 @@
-# Використовуємо Node.js 24
 FROM public.ecr.aws/docker/library/node:24
 
-# Робоча директорія в контейнері
 WORKDIR /usr/src/app
 
-# Копіюємо локальні файли у контейнер
-COPY . .
-
-# Встановлюємо залежності
+# копіюємо тільки app
+COPY app/package*.json ./
 RUN npm install
 
-# Команда для запуску контейнера
+COPY app/ .
+
+EXPOSE 3000
 CMD ["node", "index.js"]
+
