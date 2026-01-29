@@ -1,5 +1,5 @@
 # Використовуємо Node.js 24
-FROM node:24
+FROM public.ecr.aws/docker/library/node:24
 
 # Робоча директорія в контейнері
 WORKDIR /usr/src/app
