@@ -17,9 +17,11 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - cd app   # <--- додаємо cd app
       - docker build -t my-nodejs-app .
 
   post_build:
     commands:
       - echo Build completed on `date`
+      - cd app   # <--- додаємо cd app
       - docker push 442955307136.dkr.ecr.us-east-1.amazonaws.com/my-nodejs-app:latest
