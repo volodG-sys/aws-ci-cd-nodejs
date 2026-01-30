@@ -2,8 +2,12 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
+  - source: app/
     destination: /home/ec2-user/app
+    overwrite: true
+
+  - source: scripts/
+    destination: /home/ec2-user/app/scripts
     overwrite: true
 
 hooks:
@@ -21,3 +25,4 @@ hooks:
     - location: scripts/after_install.sh
       timeout: 300
       runas: root
+
